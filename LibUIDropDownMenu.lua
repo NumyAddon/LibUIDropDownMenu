@@ -22,6 +22,7 @@ local MINOR_VERSION = 90124
 
 local LibStub = _G.LibStub
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub.") end
+--- @class LibUIDropDownMenuNumy
 local lib = LibStub:NewLibrary(MAJOR_VERSION, MINOR_VERSION)
 if not lib then return end
 
