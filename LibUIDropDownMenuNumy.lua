@@ -17,7 +17,7 @@ local GameTooltip_SetTitle, GameTooltip_AddInstructionLine, GameTooltip_AddNorma
 
 -- ----------------------------------------------------------------------------
 local MAJOR_VERSION = "LibUIDropDownMenuNumy-4.0"
-local MINOR_VERSION = 90125
+local MINOR_VERSION = 90129
 
 
 local LibStub = _G.LibStub
@@ -781,7 +781,9 @@ function lib:UIDropDownMenu_Initialize(frame, initFunction, displayMode, level, 
 	local dropDownList = _G["L_Numy_DropDownList"..level];
 	dropDownList.dropdown = frame;
 	dropDownList.shouldRefresh = true;
-	dropDownList:SetWindow(frame:GetWindow());
+	if (WoWRetail) then
+	    dropDownList:SetWindow(frame:GetWindow());
+	end
 
 	lib:UIDropDownMenu_SetDisplayMode(frame, displayMode);
 end
@@ -1317,7 +1319,7 @@ function lib:UIDropDownMenu_AddButton(info, level)
 		_G[listFrameName.."Button"..index.."UnCheck"]:Hide();
 	end
 	button.checked = info.checked;
-	if (WoWRetail) then
+	if (WoWRetail and button.NewFeature) then
 		button.NewFeature:SetShown(button.showNewLabel); -- Retail only?
 	end
 
