@@ -1930,8 +1930,8 @@ local function containsMouse()
 			result = true;
 		end
 	end
-	-- TeeloJubeithos: 
-	--   If the menu is open, and you click the button to close it, 
+	-- TeeloJubeithos:
+	--   If the menu is open, and you click the button to close it,
 	--   the Global Mouse Down triggers to close it, but then the MouseDown for the button triggers to open it back up again.
 	--   I fixed this by adding a filter to the global mouse down check, don't count it if the mouse is still over the DropDownMenu's Button
 	if L_NUMY_UIDROPDOWNMENU_OPEN_MENU and L_NUMY_UIDROPDOWNMENU_OPEN_MENU.Button:IsMouseOver() then
