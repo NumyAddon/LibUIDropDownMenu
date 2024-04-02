@@ -17,12 +17,12 @@ local GameTooltip_SetTitle, GameTooltip_AddInstructionLine, GameTooltip_AddNorma
 
 -- ----------------------------------------------------------------------------
 local MAJOR_VERSION = "LibUIDropDownMenuNumy-4.0"
-local MINOR_VERSION = 90133
+local MINOR_VERSION = 90135
 
 
 local LibStub = _G.LibStub
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub.") end
---- @class LibUIDropDownMenuNumy
+--- @class LibUIDropDownMenuNumy-4.0
 local lib = LibStub:NewLibrary(MAJOR_VERSION, MINOR_VERSION)
 if not lib then return end
 
@@ -2086,8 +2086,11 @@ function lib:UIDropDownMenuButton_OpenColorPicker(self, button)
 		button = self;
 	end
 	L_NUMY_UIDROPDOWNMENU_MENU_VALUE = button.value;
---	lib:OpenColorPicker(button);
-	ColorPickerFrame:SetupColorPickerAndShow(button);
+	if (WoWRetail) then
+	    ColorPickerFrame:SetupColorPickerAndShow(button);
+	else
+		lib:OpenColorPicker(button);
+	end
 end
 
 function lib:UIDropDownMenu_DisableButton(level, id)
@@ -2196,24 +2199,29 @@ function lib:UIDropDownMenu_GetValue(id)
 end
 
 function lib:OpenColorPicker(info)
-	ColorPickerFrame:SetupColorPickerAndShow(info);
---[[
-	ColorPickerFrame.func = info.swatchFunc;
-	ColorPickerFrame.hasOpacity = info.hasOpacity;
-	ColorPickerFrame.opacityFunc = info.opacityFunc;
-	ColorPickerFrame.opacity = info.opacity;
-	ColorPickerFrame.previousValues = {r = info.r, g = info.g, b = info.b, opacity = info.opacity};
-	ColorPickerFrame.cancelFunc = info.cancelFunc;
-	ColorPickerFrame.extraInfo = info.extraInfo;
-	-- This must come last, since it triggers a call to ColorPickerFrame.func()
-	ColorPickerFrame:SetColorRGB(info.r, info.g, info.b);
-	ShowUIPanel(ColorPickerFrame);
-]]
+	if (WoWRetail) then
+	    ColorPickerFrame:SetupColorPickerAndShow(info);
+	else
+        ColorPickerFrame.func = info.swatchFunc;
+        ColorPickerFrame.hasOpacity = info.hasOpacity;
+        ColorPickerFrame.opacityFunc = info.opacityFunc;
+        ColorPickerFrame.opacity = info.opacity;
+        ColorPickerFrame.previousValues = {r = info.r, g = info.g, b = info.b, opacity = info.opacity};
+        ColorPickerFrame.cancelFunc = info.cancelFunc;
+        ColorPickerFrame.extraInfo = info.extraInfo;
+        -- This must come last, since it triggers a call to ColorPickerFrame.func()
+        ColorPickerFrame:SetColorRGB(info.r, info.g, info.b);
+        ShowUIPanel(ColorPickerFrame);
+	end
 end
 
 function lib:ColorPicker_GetPreviousValues()
---	return ColorPickerFrame.previousValues.r, ColorPickerFrame.previousValues.g, ColorPickerFrame.previousValues.b;
-	ColorPickerFrame:GetPreviousValues();
+	if (WoWRetail) then
+		local r, g, b = ColorPickerFrame:GetPreviousValues();
+		return r, g, b;
+	else
+		return ColorPickerFrame.previousValues.r, ColorPickerFrame.previousValues.g, ColorPickerFrame.previousValues.b;
+	end
 end
 
 -- //////////////////////////////////////////////////////////////
